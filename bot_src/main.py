@@ -3,11 +3,10 @@ import telebot
 from standard_request_data import UrlParametersKeys, ERROR_TYPES
 from bot_config import bot_data
 import json
+from bot_src.tokens import BotTokens
 
 
-YANDEX_API_TOKEN = "470ed2cf-c640-429d-9362-037bd56bfa4b"  # token
-BOT_TOKEN = "2041958016:AAGeOdxz56HvRlzT0xH_FtI6brStcscs89Y"  # current bot token
-bot = telebot.TeleBot(BOT_TOKEN)  # creating telegram bot
+bot = telebot.TeleBot(BotTokens.BOT_TOKEN)  # creating telegram bot
 
 BTN_TEXTS = {'Find Nearest Town': 'nearest_settlement/',
              'Find Nearest Station': 'nearest_stations/'}
