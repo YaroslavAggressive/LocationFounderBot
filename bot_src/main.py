@@ -6,7 +6,7 @@ import json
 from bot_src.tokens import BotTokens
 
 
-bot = telebot.TeleBot(BotTokens.BOT_TOKEN)  # creating telegram bot
+bot = telebot.TeleBot(BotTokens.BOT_TOKEN.value)  # creating telegram bot
 
 BTN_TEXTS = {'Find Nearest Town': 'nearest_settlement/',
              'Find Nearest Station': 'nearest_stations/'}
@@ -89,19 +89,23 @@ def choose_distance(message, url_data: dict):
         url_data.update({UrlParametersKeys.URL_RADIUS_KEY.value: str(distance)})
         result = create_data_request(url_data)
         msg = get_err_msg(result[1])
+
         if msg == ERROR_TYPES[200]:
             print_result_message(message, result[0])
         else:
             bot.send_message(message.chat.id, msg + "Please, restart your program!")
+
     except ValueError:
         bot.send_message(message.chat.id, "Oopps, incorrect format of input! Please, try again")
         bot.register_next_step_handler(message, choose_distance, url_data=url_data)
 
 
 def create_data_request(url_data: dict):
-    url = bot_data['api_url'] + url_data[UrlParametersKeys.URL_QUERY_TYPE.value]
+    url = bot_data['api_url'] + 'yandex/'
 
-    params = {'apikey': bot_data['api_key'],
+    params = {
+              # 'apikey': bot_data['api_key'],
+              'query_type': url_data[UrlParametersKeys.URL_QUERY_TYPE.value],
               'lat': url_data[UrlParametersKeys.URL_LATITUDE.value],
               'lng': url_data[UrlParametersKeys.URL_LONGITUDE.value],
               'distance': url_data[UrlParametersKeys.URL_RADIUS_KEY.value]}
